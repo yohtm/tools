@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+    echo "Usage: monitor-log LOGFILE PATTERN"
+    exit
+fi
+
+SENDER=""
+SUBJECT=""
+SMTP="HOSTNAME:PORT"
+USERNAME=""
+PW=""
+RECIPIENTS="" # Multiple recipients separated by space
+
+tail -Fn0 $1 | \
+while read line ; do
+        echo "$line" | grep -i "$2"
+        if [ $? = 0 ]
+        then
+                echo "$line" | mailx -v -r "$SENDER" -s "$SUBJECT" -S smtp="$SMTP" -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user="$USERNAME" -S smtp-auth-password="$PW" "$RECIPIENTS"
+        fi
+done
+
+
