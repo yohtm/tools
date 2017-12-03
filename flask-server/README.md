@@ -1,0 +1,1 @@
+Currently works on Python2.7 but quite easy to change up to Python3

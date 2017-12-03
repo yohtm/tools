@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-US" class="">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Home page</title>
+
+	<link  href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+	<script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+
+	<script>
+		var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+		socket.on('connect', function() {
+			socket.emit('msg_in', {data: 'I\'m connected!'});
+			console.log("Connected");
+		});
+
+		  socket.on('msg_out', function(data){
+			console.log('data: ' + data);
+			document.write(data);
+		  });
+
+	</script>
+
+</head>
+<body>
+	<div class="wrapper">
+		This is a socket test page. If you see this message, sockets are NOT working :(
+	</div>
+</body>
+</html>
